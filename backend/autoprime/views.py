@@ -4,7 +4,22 @@ from django.http import JsonResponse
 
 # Create your views here.
 
+
 def getCarros(request):
+    if request.method == "POST":
+        modelo = request.POST.get("modelo")
+        
+        carro_buscado = Carro.object.get(modelo=modelo)
+        preco = carro_buscado.preco
+
+        return JsonResponse(
+            {"preco": preco},
+            status=200
+        )
+
+
+
+def listarCarros(request):
     carros = list(Carro.objects.values())
     return JsonResponse(
         {"carros": carros},
